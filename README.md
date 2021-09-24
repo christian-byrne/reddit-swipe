@@ -1,13 +1,15 @@
 # Swipe Away Reddit Chrome Extension
 
-My first Chrome extension. Remove clutter from Old.reddit and addes hide buttons for each post for a different type of infinite browsing. 
+My first Chrome extension. Removes clutter from old.reddit and adds hide buttons for each post for infinite swipe-browsing. 
+
+![demo picture](./wiki/demo.JPG)
 
 ## Usage
 
-1. Download [zip file](./version1.zip)
-2. Go to chrome://extensions
-3. Enable developer mode radio button
-4. `Load Unpacked` -> Choose the directory made from the zip extraction
+1. Download [zip file](./version1.zip) and extract
+2. Go to `chrome://extensions` (enter that in URL bar)
+3. Enable developer mode with radio button in top right
+4. Click `Load unpacked` button -> Choose the `src` folder in the directory made from the zip extraction
 
 
 ## To Do
