@@ -81,6 +81,26 @@ I just converted my uBlock static filter list to a JS array using vim search and
 
 The raw ublock static filter list can be [found here](./ublock-filters.txt).
 
+**5 - Packaging as Extension**
+
+I followed the [offical Chrome tutorial](https://developer.chrome.com/docs/extensions/mv3/getstarted/) for making a Chrome Extension. 
+
+https://developer.chrome.com/docs/extensions/mv3/devguide/
+
+
+
+**6 - Creating Chrome Extension Manifest**
+
+
+**7 - Testing on Different Devices**
+
+https://developer.chrome.com/docs/extensions/mv3/content_scripts/
+
+https://developer.chrome.com/docs/extensions/mv3/content_scripts/#functionality
+
+**8 - Publishing to Chrome Webstore**
+
+https://developer.chrome.com/docs/extensions/mv3/hosting/
 
 
 </details>

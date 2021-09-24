@@ -1,5 +1,11 @@
 {
   "name": "Reddit Minimal - Swipe and Read",
+  "content_scripts": [
+    {
+      "matches" : ["https://*.old.reddit.com/*"],
+      "js" : ["script.js"]
+    }
+  ],
   "description": "Make browsing old.reddit simpler by removing useless page clutter and making it easier to hide posts that you've already seen.",
   "version": "1.0",
   "manifest_version": 3
