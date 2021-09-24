@@ -1,0 +1,21 @@
+/*
+ * Hide Button Style Reference
+ * 
+ * 
+ **/
+
+div.hide-button {
+  position: relative;
+  cursor: pointer;
+  float: right;
+  opacity: 0.87;
+  border-radius: 4px;
+  width: 25%;
+  font-size: 1.1rem;
+  align-items: center;
+  justify-content: center;
+  font-family: Varela Round, sans-serif;
+  background: linear-gradient(to bottom, #f64f59, #c471ed, #12c2e9);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
