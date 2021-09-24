@@ -106,6 +106,17 @@ class Post {
     this.interactions = this.getInteractionsList();
   }
 
+  /**
+   * Binds a listener to the new hide button which just simulates a click
+   * on the "old" hide button which is in the standard old Reddit UI.
+   * 
+   */
+  bindHideListener = () => {
+      this.hideBtn.addEventListener("click", () => {
+        this.getHideButton().querySelector("span a").click();
+      })
+  }  
+
   insertHideBtn = (uniformHeight) => {
     this.refHeight = uniformHeight;
     this.refHeightInt = this.refHeight.substring(0, this.refHeight.length - 2);
@@ -114,6 +125,7 @@ class Post {
     this.hideBtn = this.createButton();
     this.addHideText();
     this.appendButton();
+    this.bindHideListener();
   };
 
   fracOfHeight = (fraction) => {
@@ -150,7 +162,7 @@ class Post {
    */
   findInteraction = (keyword) => {
     for (const li of this.interactions) {
-      if (li.querySelector("a").innerHTML.lower().contains(keyword.lower())) {
+      if (li.querySelector("a").innerHTML.toLowerCase().contains(keyword.toLowerCase())) {
         return li;
       }
     }
@@ -158,12 +170,14 @@ class Post {
 
   /**
    * Return the list element that contains the hide button.
+   * Should work with all languages -- so it's superior to the findInteraction
+   * method with "hide" as arg.
    *
    * @param   {HTMLDivElement}    postEl
    * @returns {HTMLLIElement}     The argument's HTMLLis"hide" button
    */
   getHideButton = () => {
-    return Array.from(postEl.querySelectorAll("li")).filter(
+    return Array.from(this.main.querySelectorAll("li")).filter(
       (li) => li.firstElementChild.tagName == "FORM"
     )[0];
   };
