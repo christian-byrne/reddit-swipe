@@ -52,11 +52,28 @@ addHideText = () => {
 };
 ```
 
+I had to calculate fixed sizing before creating sub-elements for all the posts. 
+
+I used a gradient with fixed attachment and no-repeat attributes so that I could have a gradient spanning across all the appended elements on the page -- which was the cleanest way to visually indicating separation as with tables in a an Excel worksheet (compared with standard methods of using alternating colors or borders).
+
+```javascript
+...
+    background: "linear-gradient(to bottom, #f64f59, #c471ed, #12c2e9)",
+    backgroundRepeat: "no-repeat",
+    backgroundAttachment: "fixed",
+...
+```
+
+I found the gradient colors by just browsing the submissions of a gradient challenge on CodePen.
+
+
+
+
 **3 - Element Classes**
 
 I created a Class template for posts, so that I only had to calculate the post's properties, lookup its children/attributes, and create its appeneded elements one time. I did the same for the whole page.
 
-I made most values overridable by an `options` argument in the constructors -- using `Object.assign()` on a default options object, like how I see most people do it. This is something I always do even though most of the time it doesn't end up being used because my projects are small and quickly abandoned. It just makes it easier to add customization options later on -- and easier to add features for user customization overrides. On the other hand, it is bad for type safety. I am using Java in my programming classes at univeristy this semester, and have been using TypeScript for side projects, so I am learning why it is not good practice. But for now I still like the idea of it. 
+I made most values overridable by an `options` argument in the constructors -- using `Object.assign()` on a default options object then on the instance itself, like how I see most people do it. This is something I always do even though most of the time it doesn't end up being used because my projects are small and quickly abandoned. It just makes it easier to add customization options later on -- and easier to add features for user customization overrides. On the other hand, it is bad for type safety. I am using Java in my programming classes at univeristy this semester, and have been using TypeScript for side projects, so I am learning why it is not good practice. But for now I still like the idea of it. 
 
 </details>
 

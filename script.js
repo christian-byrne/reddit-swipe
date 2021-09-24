@@ -17,16 +17,45 @@ class Page {
 
     this.postObjs = [];
     this.initPosts();
+
+    this.minHeight = this.minPostHeight();
+    this.minHeightPx = `${this.minHeight}px`;
+
+    this.addHideButtons();
   }
+
+  /**
+   * Get px height (as number) of shortet post on page not including ads or
+   * promoted posts.
+   *
+   * @returns {number} Height (in terms of px) of the shortest post on page.
+   */
+  minPostHeight = () => {
+    let heights = [];
+    for (const post of this.postObjs) {
+      heights.push(post.heightInt);
+    }
+    return Math.min(...heights);
+  };
 
   getTable = () => {
     return document.querySelector("div#siteTable");
   };
 
   refreshPosts = () => {
-    return Array.from(this.table.querySelectorAll("div")).filter(
-      (d) => d.classList[0] == "thing"
-    );
+    let ret = [];
+    for (const post of Array.from(this.table.querySelectorAll("div"))) {
+      // First class in classList is "thing" -- should be improved.
+      // Don't include adds/promoted posts because they have special configurations which
+      // screw up the other functions.
+      if (
+        post.classList[0] == "thing" &&
+        !post.classList.contains("promoted")
+      ) {
+        ret.push(post);
+      }
+    }
+    return ret;
   };
 
   initPosts = () => {
@@ -35,8 +64,10 @@ class Page {
       this.postObjs.push(obj);
     }
   };
+
   addHideButtons = () => {
-    for (const post of this.posts) {
+    for (const post of this.postObjs) {
+      post.insertHideBtn(this.minHeightPx);
     }
   };
 }
@@ -44,35 +75,49 @@ class Page {
 class Post {
   constructor(li, options) {
     const defaults = {
+      refHeight: false,
+      refHeightInt: false,
+      hideBtn: false,
+      btnOffset: false,
       hideButtonStyle: {
         position: "relative",
-        background: "teal",
+        cursor: "pointer",
         float: "right",
-        opacity: ".67",
+        opacity: ".87",
         borderRadius: "4px",
         width: "25%",
-        fontSize: "larger",
-        textAlign: "center",
+        fontSize: "1.1rem",
+        alignItems: "center",
+        justifyContent: "center",
+        fontFamily: "Varela Round, sans-serif",
+        background: "linear-gradient(to bottom, #f64f59, #c471ed, #12c2e9)",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
       },
-      addHideButton: true,
     };
     Object.assign(defaults, options);
-    this.options = defaults;
+    Object.assign(this, defaults);
     this.main = li;
-    this.thumbnail = li.querySelector("a.thumbnail");
-    this.height = window.getComputedStyle(this.thumbnail).height;
-    this.heightInt = this.height.substring(0, this.height.length - 2);
-    this.interactions = this.getInteractionsList();
 
-    if (defaults.addHideButton) {
-      this.hideBtn = this.createButton();
-      this.addHideText();
-      this.appendButton();
-    }
+    this.thumbnail = li.querySelector("a.thumbnail");
+    this.height = window.getComputedStyle(this.main).height;
+    this.heightInt = this.height.substring(0, this.height.length - 2);
+
+    this.interactions = this.getInteractionsList();
   }
 
+  insertHideBtn = (uniformHeight) => {
+    this.refHeight = uniformHeight;
+    this.refHeightInt = this.refHeight.substring(0, this.refHeight.length - 2);
+    this.btnOffset = `${(this.heightInt - this.refHeightInt) / 2}px`;
+
+    this.hideBtn = this.createButton();
+    this.addHideText();
+    this.appendButton();
+  };
+
   fracOfHeight = (fraction) => {
-    return `${this.heightInt * fraction}px`;
+    return `${this.refHeightInt * fraction}px`;
   };
 
   styleElement = (el, styleProps) => {
@@ -100,8 +145,8 @@ class Post {
 
   /**
    *
-   * @param {String} keyword Word contained in the visible text of the interaction
-   *    (e.g., "hide" or "share").
+   * @param {String} keyword Word contained in the visible text of the
+   *    interaction (e.g., "hide" or "share").
    */
   findInteraction = (keyword) => {
     for (const li of this.interactions) {
@@ -128,10 +173,11 @@ class Post {
   };
 
   createButton = () => {
-    Object.assign(this.options.hideButtonStyle, {
-      height: this.height,
+    Object.assign(this.hideButtonStyle, {
+      height: this.refHeight,
+      marginTop: this.btnOffset,
     });
-    let styleProps = Object.entries(this.options.hideButtonStyle);
+    let styleProps = Object.entries(this.hideButtonStyle);
 
     let btn = document.createElement("div");
     this.styleElement(btn, styleProps);
@@ -141,5 +187,3 @@ class Post {
 }
 
 const page = new Page();
-const post1 = page.posts[0];
-const postC = new Post(post1);
