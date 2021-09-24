@@ -14,7 +14,11 @@ class Page {
   constructor() {
     this.table = this.getTable();
     this.posts = this.refreshPosts();
+
+    this.postObjs = [];
+    this.initPosts();
   }
+
   getTable = () => {
     return document.querySelector("div#siteTable");
   };
@@ -24,6 +28,17 @@ class Page {
       (d) => d.classList[0] == "thing"
     );
   };
+
+  initPosts = () => {
+    for (const post of this.posts) {
+      let obj = new Post(post);
+      this.postObjs.push(obj);
+    }
+  };
+  addHideButtons = () => {
+    for (const post of this.posts) {
+    }
+  };
 }
 
 class Post {
@@ -31,26 +46,53 @@ class Post {
     const defaults = {
       hideButtonStyle: {
         position: "relative",
-        background: "red",
+        background: "teal",
         float: "right",
-        opacity: ".87",
+        opacity: ".67",
         borderRadius: "4px",
-        width: "30%",
+        width: "25%",
+        fontSize: "larger",
+        textAlign: "center",
       },
-      addHideButton: true
+      addHideButton: true,
     };
     Object.assign(defaults, options);
     this.options = defaults;
     this.main = li;
     this.thumbnail = li.querySelector("a.thumbnail");
     this.height = window.getComputedStyle(this.thumbnail).height;
-    this.hideBtn = this.createButton();
+    this.heightInt = this.height.substring(0, this.height.length - 2);
     this.interactions = this.getInteractionsList();
 
-    if ( defaults.addHideButton ) {
-        this.appendButton();
+    if (defaults.addHideButton) {
+      this.hideBtn = this.createButton();
+      this.addHideText();
+      this.appendButton();
     }
   }
+
+  fracOfHeight = (fraction) => {
+    return `${this.heightInt * fraction}px`;
+  };
+
+  styleElement = (el, styleProps) => {
+    for (const [property, value] of styleProps) {
+      el.style[property] = value;
+    }
+  };
+
+  addHideText = () => {
+    let txt = document.createElement("div");
+    txt.innerHTML = "HIDE";
+    let style = {
+      color: "white",
+      textAlign: "center",
+      padding: `${this.fracOfHeight(0.33)} 0px ${this.fracOfHeight(0.33)} 0px`,
+      lineHeight: this.fracOfHeight(0.33),
+    };
+    this.styleElement(txt, Object.entries(style));
+    this.hideBtn.appendChild(txt);
+  };
 
   getInteractionsList = () => {
     return Array.from(this.main.querySelectorAll("li"));
@@ -82,7 +124,7 @@ class Post {
   };
 
   appendButton = () => {
-    this.main.querySelector("div.entry").appendChild(this.hideBtn);
+    this.main.querySelector("div.entry").prepend(this.hideBtn);
   };
 
   createButton = () => {
@@ -92,14 +134,11 @@ class Post {
     let styleProps = Object.entries(this.options.hideButtonStyle);
 
     let btn = document.createElement("div");
-    for (const [property, value] of styleProps) {
-      btn.style[property] = value;
-    }
+    this.styleElement(btn, styleProps);
 
     return btn;
   };
 }
-
 
 const page = new Page();
 const post1 = page.posts[0];
