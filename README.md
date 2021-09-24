@@ -2,6 +2,18 @@
 
 My first Chrome extension.
 
+## To Do
+
+- [ ] Publish
+- [ ] auto refresh
+- [ ] YouTube
+- [ ] Update
+- [ ] add "Poular in x location" element to block list
+- [ ] Don't run when not signed in
+- [ ] User interaction html
+- [ ] options to classes
+  - In that case, better to not use any CSS files directly and just load all style props in scripts
+
 ### Reason for Making
 
 I was using a custom block list with uBlock Origin (TODO add link) and injectable JS with (TODO add link) extension that I was using to customize my reddit experience. So I decided to package it all into an extension to see what making an extension would be like and to see if I could improve the performance of those processes
