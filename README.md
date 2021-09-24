@@ -1,6 +1,14 @@
 # Swipe Away Reddit Chrome Extension
 
-My first Chrome extension.
+My first Chrome extension. Remove clutter from Old.reddit and addes hide buttons for each post for a different type of infinite browsing. 
+
+## Usage
+
+1. Download [zip file](./version1.zip)
+2. Go to chrome://extensions
+3. Enable developer mode radio button
+4. `Load Unpacked` -> Choose the directory made from the zip extraction
+
 
 ## To Do
 
@@ -14,11 +22,11 @@ My first Chrome extension.
 - [ ] options to classes
   - In that case, better to not use any CSS files directly and just load all style props in scripts
 
-### Reason for Making
+## Reason for Making
 
 I was using a custom block list with uBlock Origin (TODO add link) and injectable JS with (TODO add link) extension that I was using to customize my reddit experience. So I decided to package it all into an extension to see what making an extension would be like and to see if I could improve the performance of those processes
 
-### Development Process
+## Development Process
 
 <details>
     <summary>Click to Expand</summary>
