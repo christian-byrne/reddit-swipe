@@ -4,14 +4,15 @@
  *
  * @todo
  *      1. auto refresh when runnig low on posts of page
- *      2. ublock settings
  *      3. youtube version
+ *      5. maybe make the original hide button white text to hide it? or make it 0width so 
+ *          it's unclickable on accidednt if it's hidden.
  *
  *
  */
 
 class Page {
-  constructor() {
+  constructor(animations=true) {
     this.blockList = [
       // Interaction options on each post (share, crosspost, etc)
       ".unvoted.entry > .top-matter > .buttons.flat-list > .crosspost-button > .post-crosspost-button",
@@ -36,6 +37,11 @@ class Page {
       "section.infobar",
     ];
     this.zapElements();
+    
+    if (animations) {
+        this.addFocusClasses();
+    }
+
     this.table = this.getTable();
     this.posts = this.refreshPosts();
 
@@ -49,6 +55,34 @@ class Page {
   }
 
   /**
+   * CSS classes to toggle when hovering. They will be referenced a lot so I think
+   * best to insert them into the HTML initially and then reference them the
+   * traditional way.
+   *
+   *
+   */
+  addFocusClasses = () => {
+    let css = document.createElement("style");
+    // Add delay to transition animation because cursor is automatically
+    // hovering next post when post above it is hidden -- and don't want
+    // animation in that case.
+    css.innerHTML = `
+        .minify-hover {
+            padding: 6px !important;
+            transition: all .9s ease-in-out 0.2s !important;
+            background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+            opacity: 0.87;
+        }
+        .minify-hover * {
+            color: white !important;
+        }
+        div.thing {
+            transition: all ease-out .2s;
+        }`;
+    document.querySelector("head").append(css);
+  };
+
+  /**
    * Remove all blocked elements. Would it be better to hide them?
    */
   zapElements = () => {
@@ -59,6 +93,7 @@ class Page {
       }
     }
   };
+
   /**
    * Get px height (as number) of shortet post on page not including ads or
    * promoted posts.
@@ -140,7 +175,6 @@ class Post {
 
     this.interactions = this.getInteractionsList();
   }
-
   /**
    * Binds a listener to the new hide button which just simulates a click
    * on the "old" hide button which is in the standard old Reddit UI.
@@ -151,8 +185,11 @@ class Post {
     this.hideBtn.addEventListener("click", () => {
       this.getHideButton().querySelector("span a").click();
     });
-    this.hideBtn.addEventListener("mouseover", () => {
-        this.parentElement.style.background = "red";
+    this.hideBtn.addEventListener("mouseover", function () {
+      this.parentElement.parentElement.classList.add("minify-hover");
+    });
+    this.hideBtn.addEventListener("mouseout", function () {
+      this.parentElement.parentElement.classList.remove("minify-hover");
     });
   };
 
@@ -222,7 +259,7 @@ class Post {
    */
   getHideButton = () => {
     return Array.from(this.main.querySelectorAll("li")).filter(
-      (li) => li.firstElementChild.tagName == "FORM"
+      (li) => li.firstElementChild && li.firstElementChild.tagName == "FORM"
     )[0];
   };
 

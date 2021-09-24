@@ -1,0 +1,15 @@
+.minify-hover {
+  padding: 8px !important;
+  transition: all .4s ease-in-out 0.6s !important;
+  background: linear-gradient(to right,  #f64f59, #c471ed, #12c2e9);
+  opacity: 0.87;
+
+}
+
+.minify-hover * {
+  color: white !important;
+}
+
+div.thing {
+  transition: all ease-out .2s
+}

@@ -75,6 +75,14 @@ I created a Class template for posts, so that I only had to calculate the post's
 
 I made most values overridable by an `options` argument in the constructors -- using `Object.assign()` on a default options object then on the instance itself, like how I see most people do it. This is something I always do even though most of the time it doesn't end up being used because my projects are small and quickly abandoned. It just makes it easier to add customization options later on -- and easier to add features for user customization overrides. On the other hand, it is bad for type safety. I am using Java in my programming classes at univeristy this semester, and have been using TypeScript for side projects, so I am learning why it is not good practice. But for now I still like the idea of it. 
 
+**4 - Element Zapper and Minifier**
+
+I just converted my uBlock static filter list to a JS array using vim search and replace, then added a function which collected all the elements from the queries and removed them. I used the element remove function that I found a long time ago which is apparently the fastest way to recursively remove DOM nodes.
+
+The raw ublock static filter list can be [found here](./ublock-filters.txt).
+
+
+
 </details>
 
 Sep 24, 2021
