@@ -1,0 +1,44 @@
+!
+! ─── REDDIT ─────────────────────────────────────────────────────────────────────
+!
+
+
+! Interaction options on each post (share, crosspost, etc)
+old.reddit.com##.unvoted.entry > .top-matter > .buttons.flat-list > .crosspost-button > .post-crosspost-button
+old.reddit.com##.unvoted.entry > .top-matter > .buttons.flat-list > .crosspost-button
+old.reddit.com##.unvoted.entry > .top-matter > .buttons.flat-list > .login-required.report-button
+old.reddit.com##.unvoted.entry > .top-matter > .buttons.flat-list > .give-gold-button > .gold-give-gold.access-required.login-required.give-gold
+old.reddit.com##.unvoted.entry > .top-matter > .buttons.flat-list > .login-required.save-button.link-save-button
+old.reddit.com##.unvoted.entry > .top-matter > .buttons.flat-list > .share > .post-sharing-button
+old.reddit.com##.unvoted.entry > .top-matter > .title > .domain
+reddit.com##.unvoted.entry > .top-matter > .buttons.flat-list > .crosspost-button > .post-crosspost-button
+reddit.com##.unvoted.entry > .top-matter > .buttons.flat-list > .crosspost-button
+reddit.com##.unvoted.entry > .top-matter > .buttons.flat-list > .login-required.report-button
+reddit.com##.unvoted.entry > .top-matter > .buttons.flat-list > .give-gold-button > .gold-give-gold.access-required.login-required.give-gold
+reddit.com##.unvoted.entry > .top-matter > .buttons.flat-list > .login-required.save-button.link-save-button
+reddit.com##.unvoted.entry > .top-matter > .buttons.flat-list > .share > .post-sharing-button
+reddit.com##.unvoted.entry > .top-matter > .title > .domain
+
+! Right side premium advertisement box
+old.reddit.com##.premium-banner
+reddit.com##.premium-banner
+
+! Login / account details on top right
+old.reddit.com##.create.sidebox > .morelink > .access-required.login-required
+reddit.com##.create.sidebox > .morelink > .access-required.login-required
+
+! All right side panel info
+old.reddit.com##.side
+old.reddit.com###header-bottom-right
+reddit.com##.side
+reddit.com###header-bottom-right
+
+! Top bar of featured subreddits
+old.reddit.com###sr-header-area
+reddit.com###sr-header-area
+
+! Footer
+old.reddit.com##.footer-parent
+
+! Welcome Banner (when logged out)
+old.reddit.com##section.infobar

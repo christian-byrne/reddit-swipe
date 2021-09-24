@@ -12,6 +12,30 @@
 
 class Page {
   constructor() {
+    this.blockList = [
+      // Interaction options on each post (share, crosspost, etc)
+      ".unvoted.entry > .top-matter > .buttons.flat-list > .crosspost-button > .post-crosspost-button",
+      ".unvoted.entry > .top-matter > .buttons.flat-list > .crosspost-button",
+      ".unvoted.entry > .top-matter > .buttons.flat-list > .login-required.report-button",
+      ".unvoted.entry > .top-matter > .buttons.flat-list > .give-gold-button > .gold-give-gold.access-required.login-required.give-gold",
+      ".unvoted.entry > .top-matter > .buttons.flat-list > .login-required.save-button.link-save-button",
+      ".unvoted.entry > .top-matter > .buttons.flat-list > .share > .post-sharing-button",
+      ".unvoted.entry > .top-matter > .title > .domain",
+      // Right side premium advertisement box
+      ".premium-banner",
+      // Login / account details on top right
+      ".create.sidebox > .morelink > .access-required.login-required",
+      // All right side panel info
+      ".side",
+      "#header-bottom-right",
+      // Top bar of featured subreddits
+      "#sr-header-area",
+      // Footer
+      "div.footer-parent",
+      // Welcome Banner (when logged out)
+      "section.infobar",
+    ];
+    this.zapElements();
     this.table = this.getTable();
     this.posts = this.refreshPosts();
 
@@ -24,6 +48,17 @@ class Page {
     this.addHideButtons();
   }
 
+  /**
+   * Remove all blocked elements. Would it be better to hide them?
+   */
+  zapElements = () => {
+    for (const query of this.blockList) {
+      let elements = document.querySelectorAll(query);
+      for (const el of elements) {
+        el.remove();
+      }
+    }
+  };
   /**
    * Get px height (as number) of shortet post on page not including ads or
    * promoted posts.
@@ -83,9 +118,9 @@ class Post {
         position: "relative",
         cursor: "pointer",
         float: "right",
-        opacity: ".87",
+        opacity: ".82",
         borderRadius: "4px",
-        width: "25%",
+        width: "20%",
         fontSize: "1.1rem",
         alignItems: "center",
         justifyContent: "center",
@@ -109,13 +144,17 @@ class Post {
   /**
    * Binds a listener to the new hide button which just simulates a click
    * on the "old" hide button which is in the standard old Reddit UI.
-   * 
+   * Also binds listeners for the hover animations.
+   *
    */
   bindHideListener = () => {
-      this.hideBtn.addEventListener("click", () => {
-        this.getHideButton().querySelector("span a").click();
-      })
-  }  
+    this.hideBtn.addEventListener("click", () => {
+      this.getHideButton().querySelector("span a").click();
+    });
+    this.hideBtn.addEventListener("mouseover", () => {
+        this.parentElement.style.background = "red";
+    });
+  };
 
   insertHideBtn = (uniformHeight) => {
     this.refHeight = uniformHeight;
@@ -162,7 +201,12 @@ class Post {
    */
   findInteraction = (keyword) => {
     for (const li of this.interactions) {
-      if (li.querySelector("a").innerHTML.toLowerCase().contains(keyword.toLowerCase())) {
+      if (
+        li
+          .querySelector("a")
+          .innerHTML.toLowerCase()
+          .contains(keyword.toLowerCase())
+      ) {
         return li;
       }
     }
