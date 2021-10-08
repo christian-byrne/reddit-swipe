@@ -5,14 +5,14 @@
  * @todo
  *      1. auto refresh when runnig low on posts of page
  *      3. youtube version
- *      5. maybe make the original hide button white text to hide it? or make it 0width so 
+ *      5. maybe make the original hide button white text to hide it? or make it 0width so
  *          it's unclickable on accidednt if it's hidden.
  *
  *
  */
 
 class Page {
-  constructor(animations=true) {
+  constructor(animations = true) {
     this.blockList = [
       // Interaction options on each post (share, crosspost, etc)
       ".unvoted.entry > .top-matter > .buttons.flat-list > .crosspost-button > .post-crosspost-button",
@@ -37,22 +37,117 @@ class Page {
       "section.infobar",
     ];
     this.zapElements();
-    
-    if (animations) {
-        this.addFocusClasses();
+
+    this.is = (siteSection) => {
+      return window.location.href.includes(siteSection);
+    };
+
+    this.noPostsPages = [
+      "/comments/",
+      "/submit",
+      "/user/",
+      "/prefs/",
+      "/subreddits/",
+    ];
+
+    this.postsPage = true;
+    for (const pageType of this.noPostsPages) {
+      if (this.is(pageType)) {
+        this.postsPage = false;
+      }
     }
 
-    this.table = this.getTable();
-    this.posts = this.refreshPosts();
+    if (this.postsPage) {
+      if (animations) {
+        this.addFocusClasses();
+      }
+      this.table = this.getTable();
+      this.posts = this.refreshPosts();
 
-    this.postObjs = [];
-    this.initPosts();
+      this.postObjs = [];
+      this.initPosts();
 
-    this.minHeight = this.minPostHeight();
-    this.minHeightPx = `${this.minHeight}px`;
+      this.minHeight = this.minPostHeight();
+      this.minHeightPx = `${this.minHeight}px`;
 
-    this.addHideButtons();
+      this.addHideButtons();
+
+      document.body.addEventListener("click", (event) => {
+        if (
+          event.target.tagName == "A" &&
+          event.target.innerHTML.toLowerCase().includes("hide")
+        ) {
+          this.autoRefillPosts();
+        }
+      });
+
+      this.addComponent.hideAllBtn();
+    }
   }
+
+
+  addComponent = {
+    hideAllBtn : () => {
+       let btnEl = document.createElement("div");
+       btnEl.innerHTML = "Hide All";
+       const styleMap = {
+         "position" : "absolute",
+         "top" : ".25%",
+         "right" : ".55%",
+         "opacity" : ".38",
+         "fontSize" : "1.25rem",
+         "zIndex" : "99",
+         "width" : "max-content",
+        "background": "linear-gradient(to right, #f64f59, #c471ed, #12c2e9)",
+        "border" : "2px solid white",
+        "color" : "hsl(39deg, 100%, 94%)",
+        "padding" : ".2rem",
+        "borderRadius" : "3px",
+        "cursor" : "pointer"
+      }
+       for ( const [property, value] of Object.entries(styleMap)) {
+         btnEl.style[property] = value;
+       }
+       btnEl.addEventListener("click", () => {
+         this.hideAllThenRefresh();
+       })
+       document.body.append(btnEl);
+    }
+  }
+
+  hideAllActivePosts = async () => {
+    for ( const postObj of this.postObjs) {
+      postObj.getHideButton().querySelector("span a").click();
+    }
+  }
+
+  hideAllThenRefresh = () => {
+    this.hideAllActivePosts().then(() => {
+      window.location = window.location.href;
+    })
+  }
+
+  autoRefillPosts = () => {
+    console.log(this.activePostsCt());
+    if (this.activePostsCt() <= 1) {
+      this.refresh();
+    }
+  };
+
+  activePostsCt = () => {
+    let ct = 0;
+    for (const post of this.refreshPosts()) {
+      if (!post.style.display.includes("none")) {
+        ct++;
+      }
+    }
+
+    return ct;
+  };
+
+  refresh = () => {
+    window.location = window.location.href;
+  };
 
   /**
    * CSS classes to toggle when hovering. They will be referenced a lot so I think
@@ -68,13 +163,13 @@ class Page {
     // animation in that case.
     css.innerHTML = `
         .minify-hover {
-            padding: 6px !important;
-            transition: all .9s ease-in-out 0.2s !important;
-            background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+            padding: 1px !important;
+            transition: all .9s ease-in-out 1.2s !important;
+            background: linear-gradient(to right,  #f1d5d6, #e5dfe9, #b5dae2);
             opacity: 0.87;
         }
         .minify-hover * {
-            color: white !important;
+            color: #121212 !important;
         }
         div.thing {
             transition: all ease-out .2s;

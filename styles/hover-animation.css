@@ -1,13 +1,13 @@
 .minify-hover {
-  padding: 8px !important;
-  transition: all .4s ease-in-out 0.6s !important;
-  background: linear-gradient(to right,  #f64f59, #c471ed, #12c2e9);
+  padding: 1px !important;
+  transition: all .9s ease-in-out 1.2s !important;
+  background: linear-gradient(to right,  #f1d5d6, #e5dfe9, #b5dae2);
   opacity: 0.87;
 
 }
 
 .minify-hover * {
-  color: white !important;
+  color: #121212 !important;
 }
 
 div.thing {

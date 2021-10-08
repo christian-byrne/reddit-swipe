@@ -12,12 +12,27 @@ My first Chrome extension. Removes clutter from old.reddit and adds hide buttons
 4. Click `Load unpacked` button -> Choose the `src` folder in the directory made from the zip extraction
 
 
-## To Do
+## Changelog
 
+### v2 
+
+- Lessened amplitude of padding-transition hover effect
+- Increased lightness of all colors in gradient of hover background change
+- 
+
+## To Do
+- [ ] Add hotkey commands for hide/expand/comments 
+  - default is first post
+  - selected post can be changed by number key
+  - after an action is taken, selected goes back to default
+- [ ] add view comments and expand button to right side
+- [X] remove increased size and make highlight feature more subtle
+- [X] remove feature on actual posts -> new post page feature
+- [X] add auto refresh
+- [X] add hide all feature
+  - [ ] **fix** async not working on certain posts or other error?
 - [ ] Publish
-- [ ] auto refresh
 - [ ] YouTube
-- [ ] Update
 - [ ] add "Poular in x location" element to block list
 - [ ] Don't run when not signed in
 - [ ] User interaction html
